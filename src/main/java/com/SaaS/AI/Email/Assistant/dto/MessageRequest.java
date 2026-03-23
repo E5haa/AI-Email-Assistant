@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class MessageRequest {
-    private Long threadId;
     private String content;
+    private String tone;
 }
