@@ -18,10 +18,8 @@ import java.util.List;
 @Component
     public class JwtFilter extends OncePerRequestFilter {
 
-    @Autowired
     private JwtService jwtService;
 
-    @Autowired
     private UserRepo userRepo;
 
     public JwtFilter(JwtService jwtService, UserRepo userRepo) {
@@ -34,6 +32,16 @@ import java.util.List;
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
+
+        String path = request.getServletPath();
+
+        if (path.startsWith("/auth")
+                || path.startsWith("/oauth2")
+                || path.startsWith("/login")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
 
         String authHeader = request.getHeader("Authorization");
 
